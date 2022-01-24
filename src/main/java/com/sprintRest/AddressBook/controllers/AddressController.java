@@ -3,7 +3,6 @@ package com.sprintRest.AddressBook.controllers;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sprintRest.AddressBook.dto.AddressBookDTO;
 import com.sprintRest.AddressBook.dto.ResponseDTO;
-import com.sprintRest.AddressBook.entities.AddressBook;
 import com.sprintRest.AddressBook.services.IAddressBookServices;
 
 @RestController

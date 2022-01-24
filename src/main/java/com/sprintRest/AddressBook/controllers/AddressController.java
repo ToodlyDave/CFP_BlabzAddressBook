@@ -2,6 +2,7 @@ package com.sprintRest.AddressBook.controllers;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,43 +17,38 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sprintRest.AddressBook.dto.AddressBookDTO;
 import com.sprintRest.AddressBook.dto.ResponseDTO;
 import com.sprintRest.AddressBook.entities.AddressBook;
+import com.sprintRest.AddressBook.services.IAddressBookServices;
 
 @RestController
 @RequestMapping("addressBook")
 public class AddressController {
+	
+	@Autowired
+	IAddressBookServices adService;
 
 	@GetMapping(value = { "/", "", "home" })
-	public String hello() {
-		return "Hello World!";
+	public ResponseEntity<ResponseDTO> hello() {
+		return adService.hello();
 	}
 
 	@GetMapping(value = { "/get/{id}", "/get/", "/get" })
 	public ResponseEntity<ResponseDTO> getAddress(@PathVariable Optional<String> id) {
-		if (id.isEmpty()) {
-			ResponseDTO response = new ResponseDTO("Returning the whole table", new AddressBookDTO("david", "india"));
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} else {
-			ResponseDTO response = new ResponseDTO("Returning a specific address", new AddressBookDTO("david", "india"));
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		}
+		return adService.getAddress(id);
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<ResponseDTO> createAddress(@RequestBody AddressBook address) {
-		ResponseDTO response = new ResponseDTO("Inserting a new address record", new AddressBookDTO("david", "india"));
-		return new ResponseEntity<>(response, HttpStatus.OK);
+	public ResponseEntity<ResponseDTO> createAddress(@RequestBody AddressBookDTO address) {
+		return adService.createAddress(address);
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ResponseDTO> updateAddress(@RequestBody AddressBook address) {
-		ResponseDTO response = new ResponseDTO("Updating an address record", new AddressBookDTO("david", "india"));
-		return new ResponseEntity<>(response, HttpStatus.OK);
+	public ResponseEntity<ResponseDTO> updateAddress(@PathVariable String id, @RequestBody AddressBookDTO address) {
+		return adService.updateAddress(id, address);
 	}
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<ResponseDTO> deleteAddress(@PathVariable String id) {
-		ResponseDTO response = new ResponseDTO("Deleting an address record", new AddressBookDTO("david", "india"));
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		return adService.deleteAddress(id);
 	}
 
 }

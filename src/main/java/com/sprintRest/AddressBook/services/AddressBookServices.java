@@ -12,6 +12,9 @@ import com.sprintRest.AddressBook.dto.AddressBookDTO;
 import com.sprintRest.AddressBook.dto.ResponseDTO;
 import com.sprintRest.AddressBook.entities.AddressBook;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class AddressBookServices implements IAddressBookServices {
 
@@ -30,16 +33,20 @@ public class AddressBookServices implements IAddressBookServices {
 
 	@Override
 	public ResponseEntity<ResponseDTO> hello() {
+		log.info(" Returning default response");
 		ResponseDTO response = new ResponseDTO("Hello World!", null);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@Override
 	public ResponseEntity<ResponseDTO> getAddress(Optional<String> id) {
+		
 		if (id.isEmpty()) {
+			log.info(" Returning all addresses as response ");
 			ResponseDTO response = new ResponseDTO("Returning the whole table", adBookList);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} else {
+			log.info(" Returning address of given id");
 			ResponseDTO response = new ResponseDTO("Returning a specific address",
 					findAddress(id.get()));
 			return new ResponseEntity<>(response, HttpStatus.OK);
@@ -48,6 +55,7 @@ public class AddressBookServices implements IAddressBookServices {
 
 	@Override
 	public ResponseEntity<ResponseDTO> createAddress(AddressBookDTO address) {
+		log.info(" Creating a new address book record ");
 		AddressBook newAddressBook = new AddressBook(++counter, address);
 		adBookList.add(newAddressBook);
 		ResponseDTO response = new ResponseDTO("Inserting a new address record", newAddressBook);
@@ -56,6 +64,7 @@ public class AddressBookServices implements IAddressBookServices {
 
 	@Override
 	public ResponseEntity<ResponseDTO> updateAddress(String id, AddressBookDTO address) {
+		log.info(" Updating an existing address book record ");
 		AddressBook adBook = findAddress(id);
 		adBook.name = address.name;
 		adBook.address = address.address;
@@ -66,6 +75,7 @@ public class AddressBookServices implements IAddressBookServices {
 
 	@Override
 	public ResponseEntity<ResponseDTO> deleteAddress(String id) {
+		log.info(" Deleting an existing address book record ");
 		adBookList.remove(findAddress(id));
 
 		ResponseDTO response = new ResponseDTO("Deleting an address record", null);

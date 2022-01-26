@@ -2,6 +2,8 @@ package com.sprintRest.AddressBook.controllers;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,12 +37,12 @@ public class AddressController {
 	}
 
 	@PostMapping("/create")
-	public ResponseEntity<ResponseDTO> createAddress(@RequestBody AddressBookDTO address) {
+	public ResponseEntity<ResponseDTO> createAddress(@Valid @RequestBody AddressBookDTO address) {
 		return adService.createAddress(address);
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ResponseDTO> updateAddress(@PathVariable String id, @RequestBody AddressBookDTO address) {
+	public ResponseEntity<ResponseDTO> updateAddress(@PathVariable String id, @Valid @RequestBody AddressBookDTO address) {
 		return adService.updateAddress(id, address);
 	}
 

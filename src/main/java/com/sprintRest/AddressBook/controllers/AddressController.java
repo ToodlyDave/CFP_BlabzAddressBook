@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sprintRest.AddressBook.dto.AddressBookDTO;
 import com.sprintRest.AddressBook.dto.ResponseDTO;
+import com.sprintRest.AddressBook.exceptions.AddressNotFound;
 import com.sprintRest.AddressBook.services.IAddressBookServices;
 
 @RestController
@@ -32,7 +33,7 @@ public class AddressController {
 	}
 
 	@GetMapping(value = { "/get/{id}", "/get/", "/get" })
-	public ResponseEntity<ResponseDTO> getAddress(@PathVariable Optional<String> id) {
+	public ResponseEntity<ResponseDTO> getAddress(@PathVariable Optional<String> id) throws AddressNotFound {
 		return adService.getAddress(id);
 	}
 
@@ -42,12 +43,12 @@ public class AddressController {
 	}
 
 	@PutMapping("/update/{id}")
-	public ResponseEntity<ResponseDTO> updateAddress(@PathVariable String id, @Valid @RequestBody AddressBookDTO address) {
+	public ResponseEntity<ResponseDTO> updateAddress(@PathVariable String id, @Valid @RequestBody AddressBookDTO address) throws AddressNotFound {
 		return adService.updateAddress(id, address);
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<ResponseDTO> deleteAddress(@PathVariable String id) {
+	public ResponseEntity<ResponseDTO> deleteAddress(@PathVariable String id) throws AddressNotFound {
 		return adService.deleteAddress(id);
 	}
 
